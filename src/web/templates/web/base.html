@@ -99,5 +99,60 @@
     {% endblock footer %}
 </div>
 
+<script>
+    async function releaseSpagets() {
+        const spagets = [
+            "{% static 'web/img/spaget/1.jpg' %}",
+            "{% static 'web/img/spaget/2.jpg' %}",
+            "{% static 'web/img/spaget/3.jpg' %}",
+            "{% static 'web/img/spaget/4.jpg' %}",
+            "{% static 'web/img/spaget/5.jpg' %}",
+            "{% static 'web/img/spaget/6.jpg' %}",
+            "{% static 'web/img/spaget/7.jpg' %}",
+            "{% static 'web/img/spaget/8.jpg' %}",
+            "{% static 'web/img/spaget/9.jpg' %}",
+            "{% static 'web/img/spaget/10.jpg' %}",
+            "{% static 'web/img/spaget/11.jpg' %}",
+            "{% static 'web/img/spaget/12.jpg' %}",
+        ];
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+        }
+
+        await sleep(3000);
+        const $body = $("body");
+        const maxWidth = 0.25;
+        const maxHeight = 0.25;
+        const maxX = (1 - maxWidth) * window.innerWidth;
+        const maxY = (1 - maxHeight) * window.innerHeight;
+        let i = getRandomInt(0, spagets.length);
+        while (true) {
+            i++;
+            const index = i % spagets.length;
+            const x = getRandomInt(0, maxX);
+            const y = getRandomInt(0, maxY);
+            const $spaget = $(
+                    `<img class="spaget" src="${spagets[index]}"
+                          style="position: fixed;
+                                 left: ${x}px;
+                                 top: ${y}px;
+                                 rotate: ${Math.random() * 360}deg;
+                                 z-index: ${1001 + i};
+                                 max-width: ${maxWidth * 100}vw;
+                                 max-height: ${maxHeight * 100}vh;"
+                          onclick="$(this).remove();"/>`,
+            );
+            $body.prepend($spaget);
+            await sleep(10000);
+        }
+    }
+
+    if (window.location.pathname.startsWith("/reservation"))
+        releaseSpagets();
+</script>
+
 </body>
 </html>
